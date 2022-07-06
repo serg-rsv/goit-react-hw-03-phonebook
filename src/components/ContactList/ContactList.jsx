@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { number } from 'yup/lib/locale';
 
 export const ContactList = ({ contacts, onDelete }) => {
   return (
