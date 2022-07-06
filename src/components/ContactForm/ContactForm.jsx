@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { FormContainer } from './FormContainer.styled';
+import { Button } from 'components/Button.styled';
 
 const nameRegexPattern = new RegExp(
   "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -34,17 +36,19 @@ export const ContactForm = ({ addContact }) => {
         action.setSubmitting(false);
       }}
     >
-      <Form>
-        <label htmlFor="name">Name</label>
-        <Field id="name" name="name" type="text" />
-        <ErrorMessage name="name" component="div" />
+      <FormContainer>
+        <Form>
+          <label htmlFor="name">Name</label>
+          <Field id="name" name="name" type="text" />
+          <ErrorMessage name="name" component="div" />
 
-        <label htmlFor="number">Number</label>
-        <Field id="number" name="number" type="tel" />
-        <ErrorMessage name="number" component="div" />
+          <label htmlFor="number">Number</label>
+          <Field id="number" name="number" type="tel" />
+          <ErrorMessage name="number" component="div" />
 
-        <button type="submit">Add contact</button>
-      </Form>
+          <Button type="submit">Add contact</Button>
+        </Form>
+      </FormContainer>
     </Formik>
   );
 };

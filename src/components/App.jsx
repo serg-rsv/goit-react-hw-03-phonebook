@@ -4,6 +4,8 @@ import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import { GlobalStyle } from './GlobalStyle';
+import { TitleMain, TitleSecond } from './Titles.styled';
+import { Section } from './Section.styled';
 
 export class App extends Component {
   state = {
@@ -51,17 +53,17 @@ export class App extends Component {
     );
 
     return (
-      <>
+      <Section>
         <GlobalStyle />
-        <h1>Phonebook</h1>
+        <TitleMain>Phonebook</TitleMain>
         <ContactForm addContact={this.addContact} />
-        <h2>Contacts</h2>
+        <TitleSecond>Contacts</TitleSecond>
         <Filter filter={filter} onChange={this.handleFilterChange} />
         <ContactList
           contacts={filteredContacts}
           onDelete={this.removeContact}
         />
-      </>
+      </Section>
     );
   }
 }

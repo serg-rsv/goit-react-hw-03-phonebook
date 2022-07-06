@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
+import { SubTitle } from 'components/Titles.styled';
 
 export const Filter = ({ filter, onChange }) => {
   return (
     <>
-      <h3>Find contacts by name</h3>
+      <SubTitle>Find contacts by name</SubTitle>
       <input type="text" value={filter} onChange={onChange} />
     </>
   );
