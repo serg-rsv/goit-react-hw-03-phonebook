@@ -1,58 +1,78 @@
 import PropTypes from 'prop-types';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { FormContainer } from './FormContainer.styled';
-import { Button } from 'components/Button.styled';
+import { Component } from 'react';
+import { Form } from './Form.styled';
+import { Button } from 'styles/Button.styled';
 
-const nameRegexPattern = new RegExp(
-  /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/
-);
-const numberRegexPattern = new RegExp(
-  /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/
-);
+export class ContactForm extends Component {
+  state = {
+    name: '',
+    number: '',
+  };
 
-export const ContactForm = ({ addContact }) => {
-  return (
-    <Formik
-      initialValues={{ name: '', number: '' }}
-      validationSchema={Yup.object({
-        name: Yup.string()
-          .matches(
-            nameRegexPattern,
-            "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          )
-          .required('Required'),
-        number: Yup.string()
-          .matches(
-            numberRegexPattern,
-            'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
-          )
-          .required('Required'),
-      })}
-      onSubmit={(values, action) => {
-        addContact(values);
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
 
-        action.resetForm();
-        action.setSubmitting(false);
-      }}
-    >
-      <FormContainer>
-        <Form>
-          <label htmlFor="name">Name</label>
-          <Field id="name" name="name" type="text" />
-          <ErrorMessage name="name" component="div" />
+  handleSubmit = e => {
+    e.preventDefault();
 
-          <label htmlFor="number">Number</label>
-          <Field id="number" name="number" type="tel" />
-          <ErrorMessage name="number" component="div" />
+    const { name, number } = this.state;
+    const { addContact, contacts } = this.props;
 
-          <Button type="submit">Add contact</Button>
-        </Form>
-      </FormContainer>
-    </Formik>
-  );
-};
+    const normalizeName = name.toLowerCase();
+    const isExist = contacts.some(
+      contactName => contactName.toLowerCase() === normalizeName
+    );
+
+    if (isExist) {
+      alert(`${name} is already in contacts.`);
+
+      return;
+    }
+
+    addContact({ name, number });
+
+    this.setState({ name: '', number: '' });
+  };
+
+  render() {
+    const { name, number } = this.state;
+
+    return (
+      <Form onSubmit={this.handleSubmit}>
+        <label>
+          Name
+          <input
+            type="text"
+            name="name"
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            required
+            value={name}
+            onChange={this.handleChange}
+          />
+        </label>
+
+        <label>
+          Number
+          <input
+            type="tel"
+            name="number"
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            required
+            value={number}
+            onChange={this.handleChange}
+          />
+        </label>
+
+        <Button type="submit">Add contact</Button>
+      </Form>
+    );
+  }
+}
 
 ContactForm.propTypes = {
+  contacts: PropTypes.arrayOf(PropTypes.string).isRequired,
   addContact: PropTypes.func.isRequired,
 };

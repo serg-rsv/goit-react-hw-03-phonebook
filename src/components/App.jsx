@@ -3,9 +3,9 @@ import { Component } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
-import { GlobalStyle } from './GlobalStyle';
-import { TitleMain, TitleSecond } from './Titles.styled';
-import { Section } from './Section.styled';
+import { GlobalStyle } from 'styles/GlobalStyle';
+import { TitleMain, TitleSecond } from 'styles/Titles.styled';
+import { Section } from 'styles/Section.styled';
 
 export class App extends Component {
   state = {
@@ -19,17 +19,6 @@ export class App extends Component {
   };
 
   addContact = ({ name, number }) => {
-    const normalizeName = name.toLowerCase();
-    const isExist = this.state.contacts.some(
-      contact => contact.name.toLowerCase() === normalizeName
-    );
-
-    if (isExist) {
-      alert(`${name} is already in contacts.`);
-
-      return;
-    }
-
     this.setState(prev => {
       return {
         contacts: [...prev.contacts, { id: nanoid(), name, number }],
@@ -51,12 +40,13 @@ export class App extends Component {
     const filteredContacts = contacts.filter(contact =>
       contact.name.toLowerCase().includes(normalizeFilter)
     );
+    const names = contacts.map(contact => contact.name);
 
     return (
       <Section>
         <GlobalStyle />
         <TitleMain>Phonebook</TitleMain>
-        <ContactForm addContact={this.addContact} />
+        <ContactForm addContact={this.addContact} contacts={names} />
         <TitleSecond>Contacts</TitleSecond>
         <Filter filter={filter} onChange={this.handleFilterChange} />
         <ContactList

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Button } from 'components/Button.styled';
+import { Contact } from 'components/Contact/Contact';
 import { List } from './List.styled';
 
 export const ContactList = ({ contacts, onDelete }) => {
@@ -7,12 +7,12 @@ export const ContactList = ({ contacts, onDelete }) => {
     <List>
       {contacts.map(({ id, name, number }) => {
         return (
-          <li key={id}>
-            {name}: {number}
-            <Button type="button" onClick={() => onDelete(id)}>
-              Delete
-            </Button>
-          </li>
+          <Contact
+            key={id}
+            name={name}
+            number={number}
+            onDelete={() => onDelete(id)}
+          />
         );
       })}
     </List>

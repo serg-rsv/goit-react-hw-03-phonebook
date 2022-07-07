@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
 const Button = styled.button`
+  width: min-content;
+  white-space: nowrap;
+
   cursor: pointer;
 
   padding: 8px;

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { SubTitle } from 'components/Titles.styled';
+import { SubTitle } from 'styles/Titles.styled';
 
 export const Filter = ({ filter, onChange }) => {
   return (
