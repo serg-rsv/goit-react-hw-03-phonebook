@@ -29,4 +29,8 @@ h6,
 p {
   margin: 0;
 }
+
+ul{
+  padding: 0;
+}
 `;
