@@ -4,6 +4,11 @@ import { Form } from './Form.styled';
 import { Button } from 'styles/Button.styled';
 
 export class ContactForm extends Component {
+  static propTypes = {
+    contacts: PropTypes.arrayOf(PropTypes.string).isRequired,
+    addContact: PropTypes.func.isRequired,
+  };
+
   state = {
     name: '',
     number: '',
@@ -71,8 +76,3 @@ export class ContactForm extends Component {
     );
   }
 }
-
-ContactForm.propTypes = {
-  contacts: PropTypes.arrayOf(PropTypes.string).isRequired,
-  addContact: PropTypes.func.isRequired,
-};
