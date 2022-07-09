@@ -33,4 +33,9 @@ p {
 ul{
   padding: 0;
 }
+
+.message{
+  margin-top: 24px;
+  color: grey;
+}
 `;

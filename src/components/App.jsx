@@ -7,16 +7,27 @@ import { GlobalStyle } from 'styles/GlobalStyle';
 import { TitleMain, TitleSecond } from 'styles/Titles.styled';
 import { Section } from 'styles/Section.styled';
 
+const STORAGE_KEY = 'contacts';
+
 export class App extends Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
+    contacts: [],
     filter: '',
   };
+
+  componentDidMount() {
+    const contacts = JSON.parse(localStorage.getItem(STORAGE_KEY));
+
+    if (contacts) {
+      this.setState({ contacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.state.contacts));
+    }
+  }
 
   addContact = ({ name, number }) => {
     this.setState(prev => {
@@ -49,10 +60,14 @@ export class App extends Component {
         <ContactForm addContact={this.addContact} contacts={names} />
         <TitleSecond>Contacts</TitleSecond>
         <Filter filter={filter} onChange={this.handleFilterChange} />
-        <ContactList
-          contacts={filteredContacts}
-          onDelete={this.removeContact}
-        />
+        {contacts.length > 0 ? (
+          <ContactList
+            contacts={filteredContacts}
+            onDelete={this.removeContact}
+          />
+        ) : (
+          <p className="message">Contacts list is empty</p>
+        )}
       </Section>
     );
   }
